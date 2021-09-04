@@ -202,7 +202,12 @@ CODE_SAMPLE;
         $this->filesystem->dumpFile(self::WORKING_DIR . '/patch.txt', self::PATCH);
         $git->apply('patch.txt');
 
-        $this->assertMatchesRegularExpression('#\?\?\\s+FileCreatedByPatch\\.txt#s', $git->getStatus());
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression('#\?\?\\s+FileCreatedByPatch\\.txt#s', $git->getStatus());
+        } else {
+            $this->assertRegExp('#\?\?\\s+FileCreatedByPatch\\.txt#s', $git->getStatus());
+        }
+
         $this->assertStringEqualsFile(self::WORKING_DIR . '/FileCreatedByPatch.txt', "contents\n");
     }
 
@@ -308,7 +313,12 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
         $output = $git->pull();
-        $this->assertMatchesRegularExpression("/^Already up[- ]to[ -]date\.$/", rtrim($output));
+
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression("/^Already up[- ]to[ -]date\.$/", rtrim($output));
+        } else {
+            $this->assertRegExp("/^Already up[- ]to[ -]date\.$/", rtrim($output));
+        }
     }
 
     public function testGitArchive(): void
