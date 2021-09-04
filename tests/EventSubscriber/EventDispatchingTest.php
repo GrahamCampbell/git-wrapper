@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\Tests\EventSubscriber;
 
-use GitWrapper\Tests\AbstractGitWrapperTestCase;
+use GrahamCampbell\GitWrapper\Tests\AbstractGitWrapperTestCase;
 
 final class EventDispatchingTest extends AbstractGitWrapperTestCase
 {

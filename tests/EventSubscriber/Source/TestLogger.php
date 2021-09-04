@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\EventSubscriber\Source;
+namespace GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source;
 
 use Psr\Log\AbstractLogger;
 
@@ -28,8 +28,8 @@ final class TestLogger extends AbstractLogger
     public $contexts = [];
 
     /**
-     * @param string $level
-     * @param string $message
+     * @param string  $level
+     * @param string  $message
      * @param mixed[] $context
      */
     public function log($level, $message, array $context = []): void

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Process;
+namespace GrahamCampbell\GitWrapper\Process;
 
-use GitWrapper\Event\GitBypassEvent;
-use GitWrapper\Event\GitErrorEvent;
-use GitWrapper\Event\GitPrepareEvent;
-use GitWrapper\Event\GitSuccessEvent;
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitCommand;
-use GitWrapper\GitWrapper;
+use GrahamCampbell\GitWrapper\Event\GitBypassEvent;
+use GrahamCampbell\GitWrapper\Event\GitErrorEvent;
+use GrahamCampbell\GitWrapper\Event\GitPrepareEvent;
+use GrahamCampbell\GitWrapper\Event\GitSuccessEvent;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitCommand;
+use GrahamCampbell\GitWrapper\GitWrapper;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -37,11 +37,11 @@ final class GitProcess extends Process
         $gitBinary = $gitWrapper->getGitBinary();
 
         // Support for executing an arbitrary git command.
-        if (is_string($commandLine)) {
-            $commandLine = explode(' ', $commandLine);
+        if (\is_string($commandLine)) {
+            $commandLine = \explode(' ', $commandLine);
         }
 
-        array_unshift($commandLine, $gitBinary);
+        \array_unshift($commandLine, $gitBinary);
 
         // Resolve the working directory of the Git process. Use the directory
         // in the command object if it exists.
@@ -50,7 +50,7 @@ final class GitProcess extends Process
         // Finalize the environment variables, an empty array is converted
         // to null which enherits the environment of the PHP process.
         $env = $gitWrapper->getEnvVars();
-        if ($env === []) {
+        if ([] === $env) {
             $env = null;
         }
 
@@ -62,7 +62,7 @@ final class GitProcess extends Process
         $gitPrepareEvent = new GitPrepareEvent($this->gitWrapper, $this, $this->gitCommand);
         $this->dispatchEvent($gitPrepareEvent);
 
-        if (! $this->gitCommand->isBypassed()) {
+        if (!$this->gitCommand->isBypassed()) {
             parent::start($callback, $env);
         } else {
             $gitBypassEvent = new GitBypassEvent($this->gitWrapper, $this, $this->gitCommand);
@@ -85,7 +85,7 @@ final class GitProcess extends Process
             } else {
                 $output = $this->getErrorOutput();
 
-                if (trim($output) === '') {
+                if ('' === \trim($output)) {
                     $output = $this->getOutput();
                 }
 
@@ -103,18 +103,18 @@ final class GitProcess extends Process
 
     private function resolveWorkingDirectory(?string $cwd, GitCommand $gitCommand): ?string
     {
-        if ($cwd !== null) {
+        if (null !== $cwd) {
             return $cwd;
         }
 
         $directory = $gitCommand->getDirectory();
-        if ($directory === null) {
+        if (null === $directory) {
             return $cwd;
         }
 
-        $cwd = realpath($directory);
-        if ($cwd === false) {
-            throw new GitException('Path to working directory could not be resolved: ' . $directory);
+        $cwd = \realpath($directory);
+        if (false === $cwd) {
+            throw new GitException('Path to working directory could not be resolved: '.$directory);
         }
 
         return $cwd;

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\Tests\EventSubscriber;
 
-use GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitCommand;
-use GitWrapper\Tests\AbstractGitWrapperTestCase;
-use GitWrapper\Tests\EventSubscriber\Source\TestLogger;
+use GrahamCampbell\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitCommand;
+use GrahamCampbell\GitWrapper\Tests\AbstractGitWrapperTestCase;
+use GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source\TestLogger;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 use Throwable;
@@ -17,7 +17,7 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
 {
     protected function tearDown(): void
     {
-        if (is_dir(self::REPO_DIR)) {
+        if (\is_dir(self::REPO_DIR)) {
             $this->filesystem->remove(self::REPO_DIR);
         }
     }
@@ -48,7 +48,7 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
 
         $this->assertSame('Git command preparing to run', $logger->messages[0]);
         $this->assertSame(
-            'Initialized empty Git repository in ' . realpath(self::REPO_DIR) . "/\n",
+            'Initialized empty Git repository in '.\realpath(self::REPO_DIR)."/\n",
             $logger->messages[1]
         );
         $this->assertSame('Git command successfully run', $logger->messages[2]);

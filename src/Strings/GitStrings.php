@@ -2,29 +2,42 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Strings;
+namespace GrahamCampbell\GitWrapper\Strings;
 
-use Nette\Utils\Strings;
+use GrahamCampbell\GitWrapper\Exception\GitException;
 
 final class GitStrings
 {
     /**
-     * For example, passing the "git@github.com:cpliakas/git-wrapper.git"
+     * For example, passing the "git@github.com:GrahamCampbell/git-wrapper.git"
      * repository would return "git-wrapper".
      */
     public static function parseRepositoryName(string $repositoryUrl): string
     {
-        $scheme = parse_url($repositoryUrl, PHP_URL_SCHEME);
+        $scheme = \parse_url($repositoryUrl, \PHP_URL_SCHEME);
 
-        if ($scheme === null) {
-            $parts = explode('/', $repositoryUrl);
-            $path = end($parts);
+        if (null === $scheme) {
+            $parts = \explode('/', $repositoryUrl);
+            $path = \end($parts);
         } else {
-            $strpos = strpos($repositoryUrl, ':');
-            $path = Strings::substring($repositoryUrl, $strpos + 1);
+            $path = \substr($repositoryUrl, \strpos($repositoryUrl, ':') + 1);
         }
 
         /** @var string $path */
-        return basename($path, '.git');
+        return \basename($path, '.git');
+    }
+
+    /**
+     * @throws GitException
+     */
+    public static function split(string $subject, string $pattern): array
+    {
+        $result = @\preg_split($pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
+
+        if (\PREG_NO_ERROR !== \preg_last_error()) {
+            throw new GitException(preg_last_error_msg());
+        }
+
+        return $result;
     }
 }

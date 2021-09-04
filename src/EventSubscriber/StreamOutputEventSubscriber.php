@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\EventSubscriber;
 
-use GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
 
 /**
  * Event handler that streams real-time output from Git commands to STDOUT and
@@ -14,7 +14,7 @@ final class StreamOutputEventSubscriber extends AbstractOutputEventSubscriber
 {
     public function handleOutput(GitOutputEvent $gitOutputEvent): void
     {
-        $handler = $gitOutputEvent->isError() ? STDERR : STDOUT;
-        fwrite($handler, $gitOutputEvent->getBuffer());
+        $handler = $gitOutputEvent->isError() ? \STDERR : \STDOUT;
+        \fwrite($handler, $gitOutputEvent->getBuffer());
     }
 }

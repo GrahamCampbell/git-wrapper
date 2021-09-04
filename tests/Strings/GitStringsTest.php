@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\Strings;
+namespace GrahamCampbell\GitWrapper\Tests\Strings;
 
-use GitWrapper\Strings\GitStrings;
+use GrahamCampbell\GitWrapper\Strings\GitStrings;
 use PHPUnit\Framework\TestCase;
 
 final class GitStringsTest extends TestCase

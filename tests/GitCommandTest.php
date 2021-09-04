@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests;
+namespace GrahamCampbell\GitWrapper\Tests;
 
-use GitWrapper\GitCommand;
+use GrahamCampbell\GitWrapper\GitCommand;
 
 final class GitCommandTest extends AbstractGitWrapperTestCase
 {
@@ -21,7 +21,7 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
         $git->setFlag($flag);
         $git->setOption($optionName, $optionValue);
 
-        $expected = [$command, sprintf('--%s', $flag), sprintf('--%s', $optionName), $optionValue, $argument];
+        $expected = [$command, \sprintf('--%s', $flag), \sprintf('--%s', $optionName), $optionValue, $argument];
 
         $this->assertSame($expected, $git->getCommandLine());
     }

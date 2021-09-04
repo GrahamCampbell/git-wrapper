@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\Event;
+namespace GrahamCampbell\GitWrapper\Tests\Event;
 
-use GitWrapper\Event\GitPrepareEvent;
+use GrahamCampbell\GitWrapper\Event\GitPrepareEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class TestBypassEventSubscriber implements EventSubscriberInterface

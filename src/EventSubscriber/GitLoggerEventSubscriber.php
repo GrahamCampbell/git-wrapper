@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\EventSubscriber;
 
-use GitWrapper\Event\AbstractGitEvent;
-use GitWrapper\Event\GitBypassEvent;
-use GitWrapper\Event\GitErrorEvent;
-use GitWrapper\Event\GitOutputEvent;
-use GitWrapper\Event\GitPrepareEvent;
-use GitWrapper\Event\GitSuccessEvent;
-use GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\Event\AbstractGitEvent;
+use GrahamCampbell\GitWrapper\Event\GitBypassEvent;
+use GrahamCampbell\GitWrapper\Event\GitErrorEvent;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\Event\GitPrepareEvent;
+use GrahamCampbell\GitWrapper\Event\GitSuccessEvent;
+use GrahamCampbell\GitWrapper\Exception\GitException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -42,7 +42,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
     }
 
     /**
-     * Required by interface
+     * Required by interface.
      */
     public function setLogger(LoggerInterface $logger): void
     {
@@ -59,8 +59,8 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      */
     public function getLogLevelMapping(string $eventName): string
     {
-        if (! isset($this->logLevelMappings[$eventName])) {
-            throw new GitException(sprintf('Unknown event "%s"', $eventName));
+        if (!isset($this->logLevelMappings[$eventName])) {
+            throw new GitException(\sprintf('Unknown event "%s"', $eventName));
         }
 
         return $this->logLevelMappings[$eventName];
@@ -87,7 +87,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      */
     public function log(AbstractGitEvent $gitEvent, string $message, array $context = []): void
     {
-        $method = $this->getLogLevelMapping(get_class($gitEvent));
+        $method = $this->getLogLevelMapping(\get_class($gitEvent));
         $context += [
             'command' => $gitEvent->getProcess()
                 ->getCommandLine(),

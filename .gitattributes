@@ -1,14 +1,9 @@
+* text=auto
+
 /.github export-ignore
 /tests export-ignore
-/upgrade export-ignore
 
-/.coveralls.yml export-ignore
 /.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
-/CHANGELOG.md export-ignore
-/changelog-linker.php export-ignore
-/ecs.php export-ignore
-/phpstan.neon export-ignore
-/phpunit.xml export-ignore
-/rector.php export-ignore
+/.styleci export-ignore

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\EventSubscriber\Source;
+namespace GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source;
 
-use GitWrapper\Event\GitBypassEvent;
-use GitWrapper\Event\GitErrorEvent;
-use GitWrapper\Event\GitPrepareEvent;
-use GitWrapper\Event\GitSuccessEvent;
+use GrahamCampbell\GitWrapper\Event\GitBypassEvent;
+use GrahamCampbell\GitWrapper\Event\GitErrorEvent;
+use GrahamCampbell\GitWrapper\Event\GitPrepareEvent;
+use GrahamCampbell\GitWrapper\Event\GitSuccessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class TestEventSubscriber implements EventSubscriberInterface
@@ -29,7 +29,7 @@ final class TestEventSubscriber implements EventSubscriberInterface
 
     public function wasMethodCalled(string $method): bool
     {
-        return in_array($method, $this->calledMethods, true);
+        return \in_array($method, $this->calledMethods, true);
     }
 
     public function onPrepare(): void

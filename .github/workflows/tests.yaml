@@ -1,37 +1,73 @@
 name: Tests
 
 on:
-    pull_request: null
-    push:
-        branches:
-            - master
+  push:
+  pull_request:
 
 jobs:
-    tests:
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - 7.3
-                    - 7.4
-                    - 8.0
+  tests:
+    name: PHP ${{ matrix.php }}; Symfony ${{ matrix.symfony }}
+    runs-on: ubuntu-20.04
 
-        runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.2', '7.3', '7.4', '8.0', '8.1']
+        symfony: ['4', '5', '6']
+        exclude:
+          - php: '7.2'
+            symfony: '6'
+          - php: '7.3'
+            symfony: '6'
+          - php: '7.4'
+            symfony: '6'
 
-        name: Tests
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-        steps:
-            -   uses: actions/checkout@v2
-            -   run: git fetch --depth=10000
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
 
-            -   run: git --version
+      - name: Setup Problem Matchers
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            -   uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
+      - name: Select Symfony 4
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer require "symfony/event-dispatcher:^4.4" "symfony/filesystem:^4.4" "symfony/process:^4.4" --no-update --no-interaction
+        if: "matrix.symfony == '4'"
 
-            # composer install cache - https://github.com/ramsey/composer-install
-            -   uses: "ramsey/composer-install@v1"
+      - name: Select Symfony 5
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer require "symfony/event-dispatcher:^5.3" "symfony/filesystem:^5.3" "symfony/process:^5.3" --no-update --no-interaction
+        if: "matrix.symfony == '5'"
 
-            -   run: vendor/bin/phpunit
+      - name: Select Symfony 6
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer require "symfony/event-dispatcher:^6.0" "symfony/filesystem:^6.0" "symfony/process:^6.0" --no-update --no-interaction
+        if: "matrix.symfony == '6'"
+
+      - name: Install PHP Dependencies
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --no-interaction --no-progress
+
+      - name: Setup Git
+        run: git config --global init.defaultBranch master
+
+      - name: Execute PHPUnit
+        run: vendor/bin/phpunit

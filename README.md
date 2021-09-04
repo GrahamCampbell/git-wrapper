@@ -1,29 +1,28 @@
 # PHP Wrapper around GIT
 
-[![Total Downloads](https://img.shields.io/packagist/dt/cpliakas/git-wrapper.svg?style=flat-square)](https://packagist.org/packages/cpliakas/git-wrapper)
-[![Latest Stable Version](https://img.shields.io/packagist/v/cpliakas/git-wrapper.svg?style=flat-square)](https://packagist.org/packages/cpliakas/git-wrapper)
-
-Git Wrapper provides a **readable API that abstracts challenges of executing Git commands from within a PHP process** for you. 
+This is a fork of [cpliakas/git-wrapper](https://github.com/cpliakas/git-wrapper) by [Chris Pliakas](https://github.com/cpliakas) and [Tomas Votruba](https://github.com/TomasVotruba). We **readable API that abstracts challenges of executing Git commands from within a PHP process** for you. We provide support for PHP 7.2, 7.3, 7.4, 8.0 and 8.1, all in one version, without depending on Nette, a major differnce from the upstream package!
 
 - It's built upon the [`Symfony\Process`](https://symfony.com/doc/current/components/process.html) to execute the Git command with **cross-platform support** and uses the best-in-breed techniques available to PHP. 
 - This library also provides an SSH wrapper script and API method for developers to **easily specify a private key other than default** by using [the technique from StackOverflow](http://stackoverflow.com/a/3500308/870667). 
 - Finally, various commands are expected to be executed in the directory containing the working copy. **The library handles this transparently** so the developer doesn't have to think about it.
 
-## Install
+
+## Installation
 
 ```bash
-composer require cpliakas/git-wrapper
+$ composer require "graham-campbell/git-wrapper:^1.0"
 ```
+
 
 ## Usage
 
 ```php
-use GitWrapper\GitWrapper;
+<?php
+
+use GrahamCampbell\GitWrapper\GitWrapper;
 
 // Initialize the library. If the path to the Git binary is not passed as 
 // the first argument when instantiating GitWrapper, it is auto-discovered.
-require_once __DIR__ . '/vendor/autoload.php';
-
 $gitWrapper = new GitWrapper();
 
 // Optionally specify a private key other than one of the defaults
@@ -76,7 +75,7 @@ Use the logger listener with [PSR-3](https://github.com/php-fig/fig-standards/bl
 ```php
 <?php
 
-use GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
+use GrahamCampbell\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -146,3 +145,8 @@ There is a default timeout of 60 seconds. This might cause "issues" when you use
 $this->gitWrapper = new GitWrapper();
 $this->gitWrapper->setTimeout(120);
 ```
+
+
+## License
+
+This project is licensed under [The MIT License (MIT)](LICENSE).

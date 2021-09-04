@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests;
+namespace GrahamCampbell\GitWrapper\Tests;
 
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitWrapper;
-use GitWrapper\Tests\Event\TestBypassEventSubscriber;
-use GitWrapper\Tests\EventSubscriber\Source\TestEventSubscriber;
-use Nette\Utils\Random;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitWrapper;
+use GrahamCampbell\GitWrapper\Tests\Event\TestBypassEventSubscriber;
+use GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source\TestEventSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -17,12 +16,12 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * @var string
      */
-    protected const REPO_DIR = __DIR__ . '/build/tests/repo';
+    protected const REPO_DIR = __DIR__.'/build/tests/repo';
 
     /**
      * @var string
      */
-    protected const WORKING_DIR = __DIR__ . '/build/tests/wc';
+    protected const WORKING_DIR = __DIR__.'/build/tests/wc';
 
     /**
      * @var string
@@ -74,11 +73,11 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Asserts a correct Git version string was returned.
      *
-     * @param string $version The version returned by the `git --version` command.
+     * @param string $version the version returned by the `git --version` command
      */
     protected function assertGitVersion(string $version): void
     {
-        $match = preg_match('#^git version [.0-9]+#', $version);
+        $match = \preg_match('#^git version [.0-9]+#', $version);
         $this->assertNotEmpty($match);
     }
 
@@ -97,6 +96,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
 
     protected function randomString(): string
     {
-        return Random::generate();
+        return \bin2hex(\random_bytes(16));
     }
 }
