@@ -6,7 +6,7 @@ namespace GrahamCampbell\GitWrapper;
 
 use GrahamCampbell\GitWrapper\Exception\GitException;
 use GrahamCampbell\GitWrapper\ValueObject\CommandName;
-use Nette\Utils\Strings;
+use GrahamCampbell\GitWrapper\Strings\GitStrings;
 
 /**
  * Interacts with a working copy.
@@ -694,6 +694,6 @@ final class GitWorkingCopy
 
     private function splitByNewline(string $string): array
     {
-        return Strings::split($string, '#\R#');
+        return GitStrings::split($string, '#\R#');
     }
 }

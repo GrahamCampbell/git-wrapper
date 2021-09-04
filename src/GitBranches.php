@@ -7,7 +7,7 @@ namespace GrahamCampbell\GitWrapper;
 use ArrayIterator;
 use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use IteratorAggregate;
-use Nette\Utils\Strings;
+use GrahamCampbell\GitWrapper\Strings\GitStrings;
 
 /**
  * Class that parses and returnes an array of branches.
@@ -42,7 +42,7 @@ final class GitBranches implements IteratorAggregate
             'a' => true,
         ];
         $output = $this->gitWorkingCopy->branch($options);
-        $branches = Strings::split(rtrim($output), "/\r\n|\n|\r/");
+        $branches = GitStrings::split(rtrim($output), "/\r\n|\n|\r/");
         return array_map(function (string $branch): string {
             return $this->trimBranch($branch);
         }, $branches);

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace GrahamCampbell\GitWrapper\Strings;
 
+use GrahamCampbell\GitWrapper\Exception\GitException;
+
 final class GitStrings
 {
     /**
-     * For example, passing the "git@github.com:cpliakas/git-wrapper.git"
+     * For example, passing the "git@github.com:GrahamCampbell/git-wrapper.git"
      * repository would return "git-wrapper".
      */
     public static function parseRepositoryName(string $repositoryUrl): string
@@ -18,11 +20,24 @@ final class GitStrings
             $parts = explode('/', $repositoryUrl);
             $path = end($parts);
         } else {
-            $strpos = strpos($repositoryUrl, ':');
-            $path = substr($repositoryUrl, $strpos + 1);
+            $path = substr($repositoryUrl, strpos($repositoryUrl, ':') + 1);
         }
 
         /** @var string $path */
         return basename($path, '.git');
+    }
+
+    /**
+     * @throws GitException
+     */
+    public static function split(string $subject, string $pattern): array
+    {
+        $result = @preg_split($pattern, $subject, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+        if (preg_last_error() !== PREG_NO_ERROR) {
+            throw new GitException(preg_last_error_msg());
+        }
+
+        return $result;
     }
 }
