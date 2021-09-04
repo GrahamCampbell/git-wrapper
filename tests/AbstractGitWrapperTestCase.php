@@ -8,7 +8,6 @@ use GrahamCampbell\GitWrapper\Exception\GitException;
 use GrahamCampbell\GitWrapper\GitWrapper;
 use GrahamCampbell\GitWrapper\Tests\Event\TestBypassEventSubscriber;
 use GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source\TestEventSubscriber;
-use Nette\Utils\Random;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -97,6 +96,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
 
     protected function randomString(): string
     {
-        return Random::generate();
+        return bin2hex(random_bytes(16));
     }
 }

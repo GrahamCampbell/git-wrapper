@@ -11,14 +11,13 @@
     "require": {
         "php": "^7.2.5 || ^8.0",
         "symfony/process": "^4.4 || ^5.1 || ^6.0",
-        "symfony/event-dispatcher": "^4.4 || ^5.1 || ^6.0",
-        "nette/utils": "^3.0"
+        "symfony/event-dispatcher": "^4.4 || ^5.1 || ^6.0"
     },
     "require-dev": {
+        "ondram/ci-detector": "^4.1",
         "phpunit/phpunit": "^7.5.20 || ^8.5.20 || ^9.5.9",
         "psr/log": "^1.1 || ^2.0 || ^3.0",
-        "symfony/filesystem": "^4.4 || ^5.1 || ^6.0",
-        "ondram/ci-detector": "^4.1"
+        "symfony/filesystem": "^4.4 || ^5.1 || ^6.0"
     },
     "autoload": {
         "psr-4": {
