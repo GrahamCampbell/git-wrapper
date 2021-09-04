@@ -29,7 +29,11 @@ jobs:
                     php-version: ${{ matrix.php }}
                     coverage: none
 
-            # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"
+
+            -   run: |
+                  git config --global init.defaultBranch master
+                  git config --global user.name "John Doe"
+                  git config --global user.email johndoe@example.com
 
             -   run: vendor/bin/phpunit
