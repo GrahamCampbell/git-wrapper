@@ -12,7 +12,6 @@ use GrahamCampbell\GitWrapper\Tests\Source\StreamSuppressFilter;
 use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use Iterator;
 use Nette\Utils\Strings;
-use OndraM\CiDetector\CiDetector;
 use Symfony\Component\Process\Process;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
@@ -854,12 +853,6 @@ CODE_SAMPLE;
 
     private function storeCurrentGitUserEmail(GitWorkingCopy $gitWorkingCopy): void
     {
-        // relevant only locally
-        $ciDetector = new CiDetector();
-        if ($ciDetector->isCiDetected()) {
-            return;
-        }
-
         // prevent local user.* override
         $this->currentUserEmail = $gitWorkingCopy->config('user.email');
         $this->currentUserName = $gitWorkingCopy->config('user.name');
@@ -867,12 +860,6 @@ CODE_SAMPLE;
 
     private function restoreCurrentGitUserEmail(): void
     {
-        // relevant only locally
-        $ciDetector = new CiDetector();
-        if ($ciDetector->isCiDetected()) {
-            return;
-        }
-
         $gitWorkingCopy = $this->gitWrapper->workingCopy(self::REPO_DIR);
         $gitWorkingCopy->config('user.email', $this->currentUserEmail);
         $gitWorkingCopy->config('user.name', $this->currentUserName);
