@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\EventSubscriber;
 
-use GitWrapper\Event\AbstractGitEvent;
-use GitWrapper\Event\GitBypassEvent;
-use GitWrapper\Event\GitErrorEvent;
-use GitWrapper\Event\GitOutputEvent;
-use GitWrapper\Event\GitPrepareEvent;
-use GitWrapper\Event\GitSuccessEvent;
-use GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\Event\AbstractGitEvent;
+use GrahamCampbell\GitWrapper\Event\GitBypassEvent;
+use GrahamCampbell\GitWrapper\Event\GitErrorEvent;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\Event\GitPrepareEvent;
+use GrahamCampbell\GitWrapper\Event\GitSuccessEvent;
+use GrahamCampbell\GitWrapper\Exception\GitException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

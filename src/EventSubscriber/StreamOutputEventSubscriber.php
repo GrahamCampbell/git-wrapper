@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\EventSubscriber;
 
-use GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
 
 /**
  * Event handler that streams real-time output from Git commands to STDOUT and

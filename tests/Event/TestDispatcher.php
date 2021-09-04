@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\Event;
+namespace GrahamCampbell\GitWrapper\Tests\Event;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

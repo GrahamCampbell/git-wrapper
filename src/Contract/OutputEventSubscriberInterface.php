@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Contract;
+namespace GrahamCampbell\GitWrapper\Contract;
 
-use GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
 
 interface OutputEventSubscriberInterface
 {

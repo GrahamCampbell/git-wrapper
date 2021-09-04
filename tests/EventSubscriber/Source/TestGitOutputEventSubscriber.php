@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\EventSubscriber\Source;
+namespace GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source;
 
-use GitWrapper\Event\GitOutputEvent;
-use GitWrapper\EventSubscriber\AbstractOutputEventSubscriber;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\EventSubscriber\AbstractOutputEventSubscriber;
 
 final class TestGitOutputEventSubscriber extends AbstractOutputEventSubscriber
 {

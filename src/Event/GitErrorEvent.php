@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace GrahamCampbell\GitWrapper\Event;
 
 /**
  * Event thrown after executing a unsuccesful git command.

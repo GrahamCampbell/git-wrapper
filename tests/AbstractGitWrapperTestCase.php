@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests;
+namespace GrahamCampbell\GitWrapper\Tests;
 
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitWrapper;
-use GitWrapper\Tests\Event\TestBypassEventSubscriber;
-use GitWrapper\Tests\EventSubscriber\Source\TestEventSubscriber;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitWrapper;
+use GrahamCampbell\GitWrapper\Tests\Event\TestBypassEventSubscriber;
+use GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source\TestEventSubscriber;
 use Nette\Utils\Random;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests;
+namespace GrahamCampbell\GitWrapper\Tests;
 
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitBranches;
-use GitWrapper\GitWorkingCopy;
-use GitWrapper\Tests\EventSubscriber\Source\TestGitOutputEventSubscriber;
-use GitWrapper\Tests\Source\StreamSuppressFilter;
-use GitWrapper\ValueObject\CommandName;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitBranches;
+use GrahamCampbell\GitWrapper\GitWorkingCopy;
+use GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source\TestGitOutputEventSubscriber;
+use GrahamCampbell\GitWrapper\Tests\Source\StreamSuppressFilter;
+use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use Iterator;
 use Nette\Utils\Strings;
 use OndraM\CiDetector\CiDetector;

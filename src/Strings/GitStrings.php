@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Strings;
+namespace GrahamCampbell\GitWrapper\Strings;
 
 use Nette\Utils\Strings;
 

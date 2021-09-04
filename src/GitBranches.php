@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper;
+namespace GrahamCampbell\GitWrapper;
 
 use ArrayIterator;
-use GitWrapper\ValueObject\CommandName;
+use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use IteratorAggregate;
 use Nette\Utils\Strings;
 

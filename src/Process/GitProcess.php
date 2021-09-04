@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Process;
+namespace GrahamCampbell\GitWrapper\Process;
 
-use GitWrapper\Event\GitBypassEvent;
-use GitWrapper\Event\GitErrorEvent;
-use GitWrapper\Event\GitPrepareEvent;
-use GitWrapper\Event\GitSuccessEvent;
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitCommand;
-use GitWrapper\GitWrapper;
+use GrahamCampbell\GitWrapper\Event\GitBypassEvent;
+use GrahamCampbell\GitWrapper\Event\GitErrorEvent;
+use GrahamCampbell\GitWrapper\Event\GitPrepareEvent;
+use GrahamCampbell\GitWrapper\Event\GitSuccessEvent;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitCommand;
+use GrahamCampbell\GitWrapper\GitWrapper;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Contracts\EventDispatcher\Event;

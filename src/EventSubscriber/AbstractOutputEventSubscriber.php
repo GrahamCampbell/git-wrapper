@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\EventSubscriber;
 
-use GitWrapper\Contract\OutputEventSubscriberInterface;
-use GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\Contract\OutputEventSubscriberInterface;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class AbstractOutputEventSubscriber implements EventSubscriberInterface, OutputEventSubscriberInterface

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper;
+namespace GrahamCampbell\GitWrapper;
 
-use GitWrapper\Event\GitOutputEvent;
-use GitWrapper\EventSubscriber\AbstractOutputEventSubscriber;
-use GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
-use GitWrapper\EventSubscriber\StreamOutputEventSubscriber;
-use GitWrapper\Exception\GitException;
-use GitWrapper\Process\GitProcess;
-use GitWrapper\Strings\GitStrings;
+use GrahamCampbell\GitWrapper\Event\GitOutputEvent;
+use GrahamCampbell\GitWrapper\EventSubscriber\AbstractOutputEventSubscriber;
+use GrahamCampbell\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
+use GrahamCampbell\GitWrapper\EventSubscriber\StreamOutputEventSubscriber;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\Process\GitProcess;
+use GrahamCampbell\GitWrapper\Strings\GitStrings;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;

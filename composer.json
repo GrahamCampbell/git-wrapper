@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "GitWrapper\\": "src"
+            "GrahamCampbell\\GitWrapper\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GitWrapper\\Tests\\": "tests"
+            "GrahamCampbell\\GitWrapper\\Tests\\": "tests"
         }
     },
     "suggest": {

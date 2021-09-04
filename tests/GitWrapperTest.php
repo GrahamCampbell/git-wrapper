@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests;
+namespace GrahamCampbell\GitWrapper\Tests;
 
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitCommand;
-use GitWrapper\GitWorkingCopy;
-use GitWrapper\Tests\Event\TestDispatcher;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitCommand;
+use GrahamCampbell\GitWrapper\GitWorkingCopy;
+use GrahamCampbell\GitWrapper\Tests\Event\TestDispatcher;
 
 final class GitWrapperTest extends AbstractGitWrapperTestCase
 {

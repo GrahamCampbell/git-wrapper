@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper;
+namespace GrahamCampbell\GitWrapper;
 
-use GitWrapper\Exception\GitException;
-use GitWrapper\ValueObject\CommandName;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use Nette\Utils\Strings;
 
 /**

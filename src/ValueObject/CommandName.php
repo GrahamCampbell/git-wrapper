@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\ValueObject;
+namespace GrahamCampbell\GitWrapper\ValueObject;
 
 final class CommandName
 {

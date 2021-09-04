@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Tests\EventSubscriber;
+namespace GrahamCampbell\GitWrapper\Tests\EventSubscriber;
 
-use GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
-use GitWrapper\Exception\GitException;
-use GitWrapper\GitCommand;
-use GitWrapper\Tests\AbstractGitWrapperTestCase;
-use GitWrapper\Tests\EventSubscriber\Source\TestLogger;
+use GrahamCampbell\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
+use GrahamCampbell\GitWrapper\Exception\GitException;
+use GrahamCampbell\GitWrapper\GitCommand;
+use GrahamCampbell\GitWrapper\Tests\AbstractGitWrapperTestCase;
+use GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source\TestLogger;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 use Throwable;

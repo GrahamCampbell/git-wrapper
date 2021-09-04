@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace GrahamCampbell\GitWrapper\Event;
 
-use GitWrapper\GitCommand;
-use GitWrapper\GitWrapper;
+use GrahamCampbell\GitWrapper\GitCommand;
+use GrahamCampbell\GitWrapper\GitWrapper;
 use Symfony\Component\Process\Process;
 use Symfony\Contracts\EventDispatcher\Event;
 

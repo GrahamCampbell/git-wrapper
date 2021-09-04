@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace GrahamCampbell\GitWrapper\Event;
 
 /**
  * Event thrown prior to executing a git command.
