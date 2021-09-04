@@ -11,7 +11,6 @@ use GrahamCampbell\GitWrapper\Tests\EventSubscriber\Source\TestGitOutputEventSub
 use GrahamCampbell\GitWrapper\Tests\Source\StreamSuppressFilter;
 use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use Iterator;
-use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
@@ -191,8 +190,11 @@ CODE_SAMPLE;
 
         $git->add('add.me');
 
-        $match = (bool) Strings::match($git->getStatus(), '#A\\s+add\\.me#s');
-        $this->assertTrue($match);
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression('#A\\s+add\\.me#s', $git->getStatus());
+        } else {
+            $this->assertRegExp('#A\\s+add\\.me#s', $git->getStatus());
+        }
     }
 
     public function testGitApply(): void
