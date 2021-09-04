@@ -42,7 +42,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
     }
 
     /**
-     * Required by interface
+     * Required by interface.
      */
     public function setLogger(LoggerInterface $logger): void
     {
@@ -59,8 +59,8 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      */
     public function getLogLevelMapping(string $eventName): string
     {
-        if (! isset($this->logLevelMappings[$eventName])) {
-            throw new GitException(sprintf('Unknown event "%s"', $eventName));
+        if (!isset($this->logLevelMappings[$eventName])) {
+            throw new GitException(\sprintf('Unknown event "%s"', $eventName));
         }
 
         return $this->logLevelMappings[$eventName];
@@ -87,7 +87,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      */
     public function log(AbstractGitEvent $gitEvent, string $message, array $context = []): void
     {
-        $method = $this->getLogLevelMapping(get_class($gitEvent));
+        $method = $this->getLogLevelMapping(\get_class($gitEvent));
         $context += [
             'command' => $gitEvent->getProcess()
                 ->getCommandLine(),

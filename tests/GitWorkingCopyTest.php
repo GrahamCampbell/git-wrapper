@@ -19,12 +19,12 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
     /**
      * @var string
      */
-    private const REMOTE_REPO_DIR = __DIR__ . '/build/tests/remote';
+    private const REMOTE_REPO_DIR = __DIR__.'/build/tests/remote';
 
     /**
      * @var string
      */
-    private const DIRECTORY = __DIR__ . '/build/tests/wc_init';
+    private const DIRECTORY = __DIR__.'/build/tests/wc_init';
 
     /**
      * @var string
@@ -67,7 +67,7 @@ CODE_SAMPLE;
             $this->filesystem->remove(self::DIRECTORY);
         }
 
-        $git = $this->gitWrapper->cloneRepository('file://' . self::REPO_DIR, self::DIRECTORY);
+        $git = $this->gitWrapper->cloneRepository('file://'.self::REPO_DIR, self::DIRECTORY);
 
         $this->storeCurrentGitUserEmail($git);
 
@@ -75,10 +75,10 @@ CODE_SAMPLE;
         $git->config('user.name', self::CONFIG_NAME);
 
         // Create the initial structure.
-        $this->filesystem->dumpFile(self::DIRECTORY . '/change.me', "unchanged\n");
-        $this->filesystem->touch(self::DIRECTORY . '/move.me');
-        $this->filesystem->mkdir(self::DIRECTORY . '/a.directory', 0755);
-        $this->filesystem->touch(self::DIRECTORY . '/a.directory/remove.me');
+        $this->filesystem->dumpFile(self::DIRECTORY.'/change.me', "unchanged\n");
+        $this->filesystem->touch(self::DIRECTORY.'/move.me');
+        $this->filesystem->mkdir(self::DIRECTORY.'/a.directory', 0755);
+        $this->filesystem->touch(self::DIRECTORY.'/a.directory/remove.me');
 
         // Initial commit.
         $git->add('*');
@@ -89,7 +89,7 @@ CODE_SAMPLE;
 
         // Create a branch, add a file.
         $branch = 'test-branch';
-        $this->filesystem->dumpFile(self::DIRECTORY . '/branch.txt', $branch . PHP_EOL);
+        $this->filesystem->dumpFile(self::DIRECTORY.'/branch.txt', $branch.\PHP_EOL);
         $git->checkoutNewBranch($branch);
         $git->add('branch.txt');
         $git->commit('Committed testing branch.');
@@ -120,12 +120,12 @@ CODE_SAMPLE;
     /**
      * Clones the local repo and returns an initialized GitWorkingCopy object.
      *
-     * @param string $directory The directory that the repository is being cloned to, defaults to "test/wc".
+     * @param string $directory the directory that the repository is being cloned to, defaults to "test/wc"
      */
     public function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
     {
         $git = $this->gitWrapper->workingCopy($directory);
-        $git->cloneRepository('file://' . self::REPO_DIR);
+        $git->cloneRepository('file://'.self::REPO_DIR);
         $git->config('user.email', self::CONFIG_EMAIL);
         $git->config('user.name', self::CONFIG_NAME);
 
@@ -152,7 +152,7 @@ CODE_SAMPLE;
         $gitWorkingCopy = $this->getWorkingCopy();
         $this->assertFalse($gitWorkingCopy->hasChanges());
 
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/change.me', "changed\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/change.me', "changed\n");
         $this->assertTrue($gitWorkingCopy->hasChanges());
     }
 
@@ -172,14 +172,14 @@ CODE_SAMPLE;
         $this->assertSame($allBranches, 4);
 
         $remoteBranches = $branches->remote();
-        $this->assertSame(count($remoteBranches), 3);
+        $this->assertSame(\count($remoteBranches), 3);
     }
 
     public function testFetchAll(): void
     {
         $git = $this->getWorkingCopy();
 
-        $output = rtrim($git->fetchAll());
+        $output = \rtrim($git->fetchAll());
 
         $this->assertSame('Fetching origin', $output);
     }
@@ -187,11 +187,11 @@ CODE_SAMPLE;
     public function testGitAdd(): void
     {
         $git = $this->getWorkingCopy();
-        $this->filesystem->touch(self::WORKING_DIR . '/add.me');
+        $this->filesystem->touch(self::WORKING_DIR.'/add.me');
 
         $git->add('add.me');
 
-        if (method_exists($this, 'assertMatchesRegularExpression')) {
+        if (\method_exists($this, 'assertMatchesRegularExpression')) {
             $this->assertMatchesRegularExpression('#A\\s+add\\.me#s', $git->getStatus());
         } else {
             $this->assertRegExp('#A\\s+add\\.me#s', $git->getStatus());
@@ -201,23 +201,23 @@ CODE_SAMPLE;
     public function testGitApply(): void
     {
         $git = $this->getWorkingCopy();
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/patch.txt', self::PATCH);
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/patch.txt', self::PATCH);
         $git->apply('patch.txt');
 
-        if (method_exists($this, 'assertMatchesRegularExpression')) {
+        if (\method_exists($this, 'assertMatchesRegularExpression')) {
             $this->assertMatchesRegularExpression('#\?\?\\s+FileCreatedByPatch\\.txt#s', $git->getStatus());
         } else {
             $this->assertRegExp('#\?\?\\s+FileCreatedByPatch\\.txt#s', $git->getStatus());
         }
 
-        $this->assertStringEqualsFile(self::WORKING_DIR . '/FileCreatedByPatch.txt', "contents\n");
+        $this->assertStringEqualsFile(self::WORKING_DIR.'/FileCreatedByPatch.txt', "contents\n");
     }
 
     public function testGitRm(): void
     {
         $git = $this->getWorkingCopy();
         $git->rm('a.directory/remove.me');
-        $this->assertFalse(is_file(self::WORKING_DIR . '/a.directory/remove.me'));
+        $this->assertFalse(\is_file(self::WORKING_DIR.'/a.directory/remove.me'));
     }
 
     public function testGitMv(): void
@@ -225,8 +225,8 @@ CODE_SAMPLE;
         $git = $this->getWorkingCopy();
         $git->mv('move.me', 'moved');
 
-        $this->assertFalse(is_file(self::WORKING_DIR . '/move.me'));
-        $this->assertTrue(is_file(self::WORKING_DIR . '/moved'));
+        $this->assertFalse(\is_file(self::WORKING_DIR.'/move.me'));
+        $this->assertTrue(\is_file(self::WORKING_DIR.'/moved'));
     }
 
     public function testGitBranch(): void
@@ -254,7 +254,7 @@ CODE_SAMPLE;
     public function testGitConfig(): void
     {
         $git = $this->getWorkingCopy();
-        $email = rtrim($git->config('user.email'));
+        $email = \rtrim($git->config('user.email'));
         $this->assertSame('testing@email.com', $email);
     }
 
@@ -274,15 +274,15 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
 
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/untracked.file', "untracked\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/untracked.file', "untracked\n");
 
         $result = $git->clean('-d', '-f');
 
-        $this->assertSame('Removing untracked.file' . PHP_EOL, $result);
+        $this->assertSame('Removing untracked.file'.\PHP_EOL, $result);
 
-        $expectedFileNameToExist = self::WORKING_DIR . '/untracked.file';
+        $expectedFileNameToExist = self::WORKING_DIR.'/untracked.file';
         // PHPUnit 10+ future compact
-        if (method_exists($this, 'assertFileDoesNotExist')) {
+        if (\method_exists($this, 'assertFileDoesNotExist')) {
             $this->assertFileDoesNotExist($expectedFileNameToExist);
         } else {
             $this->assertFileNotExists($expectedFileNameToExist);
@@ -292,7 +292,7 @@ CODE_SAMPLE;
     public function testGitReset(): void
     {
         $git = $this->getWorkingCopy();
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/change.me', "changed\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/change.me', "changed\n");
 
         $this->assertTrue($git->hasChanges());
         $git->reset([
@@ -304,7 +304,7 @@ CODE_SAMPLE;
     public function testGitStatus(): void
     {
         $git = $this->getWorkingCopy();
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/change.me', "changed\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/change.me', "changed\n");
         $output = $git->status([
             's' => true,
         ]);
@@ -316,17 +316,17 @@ CODE_SAMPLE;
         $git = $this->getWorkingCopy();
         $output = $git->pull();
 
-        if (method_exists($this, 'assertMatchesRegularExpression')) {
-            $this->assertMatchesRegularExpression("/^Already up[- ]to[ -]date\.$/", rtrim($output));
+        if (\method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression("/^Already up[- ]to[ -]date\.$/", \rtrim($output));
         } else {
-            $this->assertRegExp("/^Already up[- ]to[ -]date\.$/", rtrim($output));
+            $this->assertRegExp("/^Already up[- ]to[ -]date\.$/", \rtrim($output));
         }
     }
 
     public function testGitArchive(): void
     {
-        $archiveName = uniqid() . '.tar';
-        $archivePath = '/tmp/' . $archiveName;
+        $archiveName = \uniqid().'.tar';
+        $archivePath = '/tmp/'.$archiveName;
         $git = $this->getWorkingCopy();
         $output = $git->archive('HEAD', [
             'o' => $archivePath,
@@ -339,7 +339,7 @@ CODE_SAMPLE;
      * This tests an odd case where sometimes even though a command fails and an exception is thrown
      * the result of Process::getErrorOutput() is empty because the output is sent to STDOUT instead of STDERR. So
      * there's a code path in GitProcess::run() to check the output from Process::getErrorOutput() and if it's empty use
-     * the result from Process::getOutput() instead
+     * the result from Process::getOutput() instead.
      */
     public function testGitPullErrorWithEmptyErrorOutput(): void
     {
@@ -352,7 +352,7 @@ CODE_SAMPLE;
     public function testGitDiff(): void
     {
         $git = $this->getWorkingCopy();
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/change.me', "changed\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/change.me', "changed\n");
         $output = $git->diff();
 
         $this->assertStringStartsWith('diff --git a/change.me b/change.me', $output);
@@ -386,7 +386,7 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
         $output = $git->remote();
-        $this->assertSame('origin', rtrim($output));
+        $this->assertSame('origin', \rtrim($output));
     }
 
     public function testRebase(): void
@@ -436,36 +436,36 @@ CODE_SAMPLE;
 
         // Capture output written to STDOUT and use echo so we can suppress and
         // capture it using normal output buffering.
-        stream_filter_register('suppress', StreamSuppressFilter::class);
+        \stream_filter_register('suppress', StreamSuppressFilter::class);
         /** @var resource $stdoutSuppress */
-        $stdoutSuppress = stream_filter_append(STDOUT, 'suppress');
+        $stdoutSuppress = \stream_filter_append(\STDOUT, 'suppress');
 
         $git->getWrapper()
             ->streamOutput(true);
-        ob_start();
+        \ob_start();
         $git->status();
-        $contents = ob_get_contents();
-        ob_end_clean();
+        $contents = \ob_get_contents();
+        \ob_end_clean();
 
         /** @var string $contents */
         $this->assertStringContainsString('nothing to commit', $contents);
 
         $git->getWrapper()
             ->streamOutput(false);
-        ob_start();
+        \ob_start();
         $git->status();
-        $empty = ob_get_contents();
-        ob_end_clean();
+        $empty = \ob_get_contents();
+        \ob_end_clean();
 
         $this->assertEmpty($empty);
 
-        stream_filter_remove($stdoutSuppress);
+        \stream_filter_remove($stdoutSuppress);
     }
 
     public function testCommitWithAuthor(): void
     {
         $git = $this->getWorkingCopy();
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/commit.txt', "created\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/commit.txt', "created\n");
 
         $this->assertTrue($git->hasChanges());
 
@@ -502,7 +502,7 @@ CODE_SAMPLE;
         $this->assertTrue($git->isUpToDate());
 
         // If we create a new commit, we are still up-to-date.
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/commit.txt', "created\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/commit.txt', "created\n");
         $git->add('commit.txt');
         $git->commit([
             'm' => '1 commit ahead. Still up-to-date.',
@@ -526,7 +526,7 @@ CODE_SAMPLE;
         $this->assertFalse($git->isAhead());
 
         // Create a new commit, so that the branch is 1 commit ahead.
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/commit.txt', "created\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/commit.txt', "created\n");
         $git->add('commit.txt');
         $git->commit([
             'm' => '1 commit ahead.',
@@ -568,7 +568,7 @@ CODE_SAMPLE;
 
         // Create a new commit, so that the branch is also 1 commit ahead. Now a
         // merge is needed.
-        $this->filesystem->dumpFile(self::WORKING_DIR . '/commit.txt', "created\n");
+        $this->filesystem->dumpFile(self::WORKING_DIR.'/commit.txt', "created\n");
         $git->add('commit.txt');
         $git->commit([
             'm' => '1 commit ahead.',
@@ -583,6 +583,7 @@ CODE_SAMPLE;
 
     /**
      * @dataProvider addRemoteDataProvider()
+     *
      * @param mixed[] $options
      * @param mixed[] $asserts
      */
@@ -590,10 +591,10 @@ CODE_SAMPLE;
     {
         $this->createRemote();
         $git = $this->getWorkingCopy();
-        $git->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR, $options);
+        $git->addRemote('remote', 'file://'.self::REMOTE_REPO_DIR, $options);
         $this->assertTrue($git->hasRemote('remote'));
         foreach ($asserts as $method => $parameters) {
-            array_unshift($parameters, $git);
+            \array_unshift($parameters, $git);
             $this->{$method}(...$parameters);
         }
     }
@@ -687,7 +688,7 @@ CODE_SAMPLE;
     {
         $this->createRemote();
         $git = $this->getWorkingCopy();
-        $git->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR);
+        $git->addRemote('remote', 'file://'.self::REMOTE_REPO_DIR);
         $this->assertTrue($git->hasRemote('remote'));
 
         // The remote should be gone after it is removed.
@@ -701,7 +702,7 @@ CODE_SAMPLE;
         $git = $this->getWorkingCopy();
         // The remote should be absent before it is added.
         $this->assertFalse($git->hasRemote('remote'));
-        $git->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR);
+        $git->addRemote('remote', 'file://'.self::REMOTE_REPO_DIR);
         // The remote should be present after it is added.
         $this->assertTrue($git->hasRemote('remote'));
     }
@@ -710,7 +711,7 @@ CODE_SAMPLE;
     {
         $this->createRemote();
         $git = $this->getWorkingCopy();
-        $path = 'file://' . self::REMOTE_REPO_DIR;
+        $path = 'file://'.self::REMOTE_REPO_DIR;
         $git->addRemote('remote', $path);
 
         // Both the 'fetch' and 'push' URIs should be populated and point to the
@@ -733,7 +734,7 @@ CODE_SAMPLE;
 
         // If we add a second remote, both it and the 'origin' remotes should be
         // present.
-        $git->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR);
+        $git->addRemote('remote', 'file://'.self::REMOTE_REPO_DIR);
         $remotes = $git->getRemotes();
         $this->assertArrayHasKey('origin', $remotes);
         $this->assertArrayHasKey('remote', $remotes);
@@ -746,10 +747,10 @@ CODE_SAMPLE;
     {
         $this->createRemote();
         $git = $this->getWorkingCopy();
-        $git->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR);
+        $git->addRemote('remote', 'file://'.self::REMOTE_REPO_DIR);
 
         $resolveRemoveUrl = $git->getRemoteUrl($remote, $operation);
-        $this->assertSame('file://' . $expectedRemoteUrl, $resolveRemoveUrl);
+        $this->assertSame('file://'.$expectedRemoteUrl, $resolveRemoveUrl);
     }
 
     /**
@@ -777,7 +778,7 @@ CODE_SAMPLE;
             return;
         }
 
-        throw new GitException(sprintf('Tag "%s" should not exist', $tag));
+        throw new GitException(\sprintf('Tag "%s" should not exist', $tag));
     }
 
     protected function assertRemoteMaster(GitWorkingCopy $gitWorkingCopy): void
@@ -811,7 +812,7 @@ CODE_SAMPLE;
     {
         $branches = $gitWorkingCopy->getBranches()
             ->remote();
-        $this->assertArrayHasKey($branch, array_flip($branches));
+        $this->assertArrayHasKey($branch, \array_flip($branches));
     }
 
     /**
@@ -828,24 +829,24 @@ CODE_SAMPLE;
     {
         $branches = $gitWorkingCopy->getBranches()
             ->remote();
-        $this->assertArrayNotHasKey($branch, array_flip($branches));
+        $this->assertArrayNotHasKey($branch, \array_flip($branches));
     }
 
     private function createRemote(): void
     {
         // Create a clone of the working copy that will serve as a remote.
-        $git = $this->gitWrapper->cloneRepository('file://' . self::REPO_DIR, self::REMOTE_REPO_DIR);
+        $git = $this->gitWrapper->cloneRepository('file://'.self::REPO_DIR, self::REMOTE_REPO_DIR);
         $git->config('user.email', self::CONFIG_EMAIL);
         $git->config('user.name', self::CONFIG_NAME);
 
         // Make a change to the remote repo.
-        $this->filesystem->dumpFile(self::REMOTE_REPO_DIR . '/remote.file', "remote code\n");
+        $this->filesystem->dumpFile(self::REMOTE_REPO_DIR.'/remote.file', "remote code\n");
         $git->add('*');
         $git->commit('Remote change.');
 
         // Create a branch.
         $branch = 'remote-branch';
-        $this->filesystem->dumpFile(self::REMOTE_REPO_DIR . '/remote-branch.txt', $branch . PHP_EOL);
+        $this->filesystem->dumpFile(self::REMOTE_REPO_DIR.'/remote-branch.txt', $branch.\PHP_EOL);
         $git->checkoutNewBranch($branch);
         $git->add('*');
         $git->commit('Commit remote testing branch.');

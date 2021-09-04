@@ -20,7 +20,7 @@ final class TestGitOutputEventSubscriber extends AbstractOutputEventSubscriber
     }
 
     /**
-     * For testing
+     * For testing.
      */
     public function getLastEvent(): GitOutputEvent
     {

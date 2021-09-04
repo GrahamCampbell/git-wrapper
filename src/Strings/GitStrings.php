@@ -14,17 +14,17 @@ final class GitStrings
      */
     public static function parseRepositoryName(string $repositoryUrl): string
     {
-        $scheme = parse_url($repositoryUrl, PHP_URL_SCHEME);
+        $scheme = \parse_url($repositoryUrl, \PHP_URL_SCHEME);
 
-        if ($scheme === null) {
-            $parts = explode('/', $repositoryUrl);
-            $path = end($parts);
+        if (null === $scheme) {
+            $parts = \explode('/', $repositoryUrl);
+            $path = \end($parts);
         } else {
-            $path = substr($repositoryUrl, strpos($repositoryUrl, ':') + 1);
+            $path = \substr($repositoryUrl, \strpos($repositoryUrl, ':') + 1);
         }
 
         /** @var string $path */
-        return basename($path, '.git');
+        return \basename($path, '.git');
     }
 
     /**
@@ -32,9 +32,9 @@ final class GitStrings
      */
     public static function split(string $subject, string $pattern): array
     {
-        $result = @preg_split($pattern, $subject, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $result = @\preg_split($pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
 
-        if (preg_last_error() !== PREG_NO_ERROR) {
+        if (\PREG_NO_ERROR !== \preg_last_error()) {
             throw new GitException(preg_last_error_msg());
         }
 

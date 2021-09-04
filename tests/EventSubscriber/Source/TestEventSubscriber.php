@@ -29,7 +29,7 @@ final class TestEventSubscriber implements EventSubscriberInterface
 
     public function wasMethodCalled(string $method): bool
     {
-        return in_array($method, $this->calledMethods, true);
+        return \in_array($method, $this->calledMethods, true);
     }
 
     public function onPrepare(): void

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace GrahamCampbell\GitWrapper;
 
 use GrahamCampbell\GitWrapper\Exception\GitException;
-use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use GrahamCampbell\GitWrapper\Strings\GitStrings;
+use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 
 /**
  * Interacts with a working copy.
@@ -78,13 +78,13 @@ final class GitWorkingCopy
      */
     public function isCloned(): bool
     {
-        if ($this->cloned === null) {
+        if (null === $this->cloned) {
             $gitDir = $this->directory;
-            if (is_dir($gitDir . '/.git')) {
+            if (\is_dir($gitDir.'/.git')) {
                 $gitDir .= '/.git';
             }
 
-            $this->cloned = is_dir($gitDir . '/objects') && is_dir($gitDir . '/refs') && is_file($gitDir . '/HEAD');
+            $this->cloned = \is_dir($gitDir.'/objects') && \is_dir($gitDir.'/refs') && \is_file($gitDir.'/HEAD');
         }
 
         return $this->cloned;
@@ -119,7 +119,8 @@ final class GitWorkingCopy
     public function hasChanges(): bool
     {
         $output = $this->getStatus();
-        return ! empty($output);
+
+        return !empty($output);
     }
 
     /**
@@ -141,14 +142,13 @@ final class GitWorkingCopy
      */
     public function isUpToDate(): bool
     {
-        if (! $this->isTracking()) {
-            throw new GitException(
-                'Error: HEAD does not have a remote tracking branch. Cannot check if it is up-to-date.'
-            );
+        if (!$this->isTracking()) {
+            throw new GitException('Error: HEAD does not have a remote tracking branch. Cannot check if it is up-to-date.');
         }
 
         $mergeBase = $this->run(CommandName::MERGE_BASE, ['@', '@{u}']);
         $remoteSha = $this->run(CommandName::REV_PARSE, ['@{u}']);
+
         return $mergeBase === $remoteSha;
     }
 
@@ -160,13 +160,14 @@ final class GitWorkingCopy
      */
     public function isAhead(): bool
     {
-        if (! $this->isTracking()) {
+        if (!$this->isTracking()) {
             throw new GitException('Error: HEAD does not have a remote tracking branch. Cannot check if it is ahead.');
         }
 
         $mergeBase = $this->run(CommandName::MERGE_BASE, ['@', '@{u}']);
         $localSha = $this->run(CommandName::REV_PARSE, ['@']);
         $remoteSha = $this->run(CommandName::REV_PARSE, ['@{u}']);
+
         return $mergeBase === $remoteSha && $localSha !== $remoteSha;
     }
 
@@ -178,13 +179,14 @@ final class GitWorkingCopy
      */
     public function isBehind(): bool
     {
-        if (! $this->isTracking()) {
+        if (!$this->isTracking()) {
             throw new GitException('Error: HEAD does not have a remote tracking branch. Cannot check if it is behind.');
         }
 
         $mergeBase = $this->run(CommandName::MERGE_BASE, ['@', '@{u}']);
         $localSha = $this->run(CommandName::REV_PARSE, ['@']);
         $remoteSha = $this->run(CommandName::REV_PARSE, ['@{u}']);
+
         return $mergeBase === $localSha && $localSha !== $remoteSha;
     }
 
@@ -197,13 +199,14 @@ final class GitWorkingCopy
      */
     public function needsMerge(): bool
     {
-        if (! $this->isTracking()) {
+        if (!$this->isTracking()) {
             throw new GitException('Error: HEAD does not have a remote tracking branch. Cannot check if it is behind.');
         }
 
         $mergeBase = $this->run(CommandName::MERGE_BASE, ['@', '@{u}']);
         $localSha = $this->run(CommandName::REV_PARSE, ['@']);
         $remoteSha = $this->run(CommandName::REV_PARSE, ['@{u}']);
+
         return $mergeBase !== $localSha && $mergeBase !== $remoteSha;
     }
 
@@ -219,8 +222,8 @@ final class GitWorkingCopy
     /**
      * This is synonymous with `git push origin tag v1.2.3`.
      *
-     * @param string $repository The destination of the push operation, which is either a URL or name of
-     *   the remote. Defaults to "origin".
+     * @param string  $repository The destination of the push operation, which is either a URL or name of
+     *                            the remote. Defaults to "origin".
      * @param mixed[] $options
      */
     public function pushTag(string $tag, string $repository = 'origin', array $options = []): string
@@ -231,12 +234,13 @@ final class GitWorkingCopy
     /**
      * This is synonymous with `git push --tags origin`.
      *
-     * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
+     * @param string  $repository the destination of the push operation, which is either a URL or name of the remote
      * @param mixed[] $options
      */
     public function pushTags(string $repository = 'origin', array $options = []): string
     {
         $options['tags'] = true;
+
         return $this->push($repository, $options);
     }
 
@@ -250,6 +254,7 @@ final class GitWorkingCopy
     public function fetchAll(array $options = []): string
     {
         $options['all'] = true;
+
         return $this->fetch($options);
     }
 
@@ -263,6 +268,7 @@ final class GitWorkingCopy
     public function checkoutNewBranch(string $branch, array $options = []): string
     {
         $options['b'] = true;
+
         return $this->checkout($branch, $options);
     }
 
@@ -270,19 +276,19 @@ final class GitWorkingCopy
      * Adds a remote to the repository.
      *
      * @param mixed[] $options An associative array of options, with the following keys:
-     *   - -f: Boolean, set to true to run git fetch immediately after the
-     *     remote is set up. Defaults to false.
-     *   - --tags: Boolean. By default only the tags from the fetched branches
-     *     are imported when git fetch is run. Set this to true to import every
-     *     tag from the remote repository. Defaults to false.
-     *   - --no-tags: Boolean, when set to true, git fetch does not import tags
-     *     from the remote repository. Defaults to false.
-     *   - -t: Optional array of branch names to track. If left empty, all
-     *     branches will be tracked.
-     *   - -m: Optional name of the master branch to track. This will set up a
-     *     symbolic ref 'refs/remotes/<name>/HEAD which points at the specified
-     *     master branch on the remote. When omitted, no symbolic ref will be
-     *     created.
+     *                         - -f: Boolean, set to true to run git fetch immediately after the
+     *                         remote is set up. Defaults to false.
+     *                         - --tags: Boolean. By default only the tags from the fetched branches
+     *                         are imported when git fetch is run. Set this to true to import every
+     *                         tag from the remote repository. Defaults to false.
+     *                         - --no-tags: Boolean, when set to true, git fetch does not import tags
+     *                         from the remote repository. Defaults to false.
+     *                         - -t: Optional array of branch names to track. If left empty, all
+     *                         branches will be tracked.
+     *                         - -m: Optional name of the master branch to track. This will set up a
+     *                         symbolic ref 'refs/remotes/<name>/HEAD which points at the specified
+     *                         master branch on the remote. When omitted, no symbolic ref will be
+     *                         created.
      */
     public function addRemote(string $name, string $url, array $options = []): string
     {
@@ -292,13 +298,13 @@ final class GitWorkingCopy
 
         // Add boolean options.
         foreach (['-f', '--tags', '--no-tags'] as $option) {
-            if (! empty($options[$option])) {
+            if (!empty($options[$option])) {
                 $args[] = $option;
             }
         }
 
         // Add tracking branches.
-        if (! empty($options[self::_T])) {
+        if (!empty($options[self::_T])) {
             foreach ($options[self::_T] as $branch) {
                 $args[] = self::_T;
                 $args[] = $branch;
@@ -306,7 +312,7 @@ final class GitWorkingCopy
         }
 
         // Add master branch.
-        if (! empty($options[self::_M])) {
+        if (!empty($options[self::_M])) {
             $args[] = self::_M;
             $args[] = $options[self::_M];
         }
@@ -325,18 +331,18 @@ final class GitWorkingCopy
 
     public function hasRemote(string $name): bool
     {
-        return array_key_exists($name, $this->getRemotes());
+        return \array_key_exists($name, $this->getRemotes());
     }
 
     /**
      * @return string[] An associative array with the following keys:
-     *  - fetch: the fetch URL.
-     *  - push: the push URL.
+     *                  - fetch: the fetch URL.
+     *                  - push: the push URL.
      */
     public function getRemote(string $name): array
     {
-        if (! $this->hasRemote($name)) {
-            throw new GitException(sprintf('The remote "%s" does not exist.', $name));
+        if (!$this->hasRemote($name)) {
+            throw new GitException(\sprintf('The remote "%s" does not exist.', $name));
         }
 
         return $this->getRemotes()[$name];
@@ -344,12 +350,12 @@ final class GitWorkingCopy
 
     /**
      * @return string[][] An associative array, keyed by remote name, containing an associative array with keys
-     *  - fetch: the fetch URL.
-     *  - push: the push URL.
+     *                    - fetch: the fetch URL.
+     *                    - push: the push URL.
      */
     public function getRemotes(): array
     {
-        $result = rtrim($this->remote());
+        $result = \rtrim($this->remote());
         if (empty($result)) {
             return [];
         }
@@ -374,11 +380,11 @@ final class GitWorkingCopy
     {
         $argsAndOptions = ['get-url', $remote];
 
-        if ($operation === CommandName::PUSH) {
+        if (CommandName::PUSH === $operation) {
             $argsAndOptions[] = '--push';
         }
 
-        return rtrim($this->remote(...$argsAndOptions));
+        return \rtrim($this->remote(...$argsAndOptions));
     }
 
     /**
@@ -445,6 +451,7 @@ final class GitWorkingCopy
     public function cloneRepository(string $repository, array $options = []): string
     {
         $argsAndOptions = [$repository, $this->directory, $options];
+
         return $this->run(CommandName::CLONE, $argsAndOptions, false);
     }
 
@@ -459,7 +466,7 @@ final class GitWorkingCopy
      */
     public function commit(...$argsAndOptions): string
     {
-        if (isset($argsAndOptions[0]) && is_string($argsAndOptions[0]) && ! isset($argsAndOptions[1])) {
+        if (isset($argsAndOptions[0]) && \is_string($argsAndOptions[0]) && !isset($argsAndOptions[1])) {
             $argsAndOptions[0] = [
                 'm' => $argsAndOptions[0],
                 'a' => true,
@@ -496,6 +503,7 @@ final class GitWorkingCopy
      * $git->fetch(['all' => true]);
      *
      * @api
+     *
      * @param mixed ...$argsAndOptions
      */
     public function fetch(...$argsAndOptions): string
@@ -525,6 +533,7 @@ final class GitWorkingCopy
     public function init(array $options = []): string
     {
         $argsAndOptions = [$this->directory, $options];
+
         return $this->run(CommandName::INIT, $argsAndOptions, false);
     }
 
@@ -557,6 +566,7 @@ final class GitWorkingCopy
     public function mv(string $source, string $destination, array $options = []): string
     {
         $argsAndOptions = [$source, $destination, $options];
+
         return $this->run(CommandName::MV, $argsAndOptions);
     }
 
@@ -618,6 +628,7 @@ final class GitWorkingCopy
     public function rm(string $filepattern, array $options = []): string
     {
         $args = [$filepattern, $options];
+
         return $this->run(CommandName::RM, $args);
     }
 
@@ -629,6 +640,7 @@ final class GitWorkingCopy
     public function show(string $object, array $options = []): string
     {
         $args = [$object, $options];
+
         return $this->run(CommandName::SHOW, $args);
     }
 

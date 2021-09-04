@@ -17,7 +17,7 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
 {
     protected function tearDown(): void
     {
-        if (is_dir(self::REPO_DIR)) {
+        if (\is_dir(self::REPO_DIR)) {
             $this->filesystem->remove(self::REPO_DIR);
         }
     }
@@ -48,7 +48,7 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
 
         $this->assertSame('Git command preparing to run', $logger->messages[0]);
         $this->assertSame(
-            'Initialized empty Git repository in ' . realpath(self::REPO_DIR) . "/\n",
+            'Initialized empty Git repository in '.\realpath(self::REPO_DIR)."/\n",
             $logger->messages[1]
         );
         $this->assertSame('Git command successfully run', $logger->messages[2]);

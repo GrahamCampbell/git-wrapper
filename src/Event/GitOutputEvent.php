@@ -48,6 +48,6 @@ final class GitOutputEvent extends AbstractGitEvent
 
     public function isError(): bool
     {
-        return $this->type === Process::ERR;
+        return Process::ERR === $this->type;
     }
 }

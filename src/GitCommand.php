@@ -56,7 +56,7 @@ final class GitCommand
         $this->command = $command;
 
         foreach ($argsAndOptions as $argOrOption) {
-            if (is_array($argOrOption)) {
+            if (\is_array($argOrOption)) {
                 // If item is array, set it as the options
                 $this->setOptions($argOrOption);
             } else {
@@ -68,6 +68,7 @@ final class GitCommand
 
     /**
      * Returns Git command being run, e.g. "clone", "commit", etc.
+     *
      * @api
      */
     public function getCommand(): string
@@ -102,7 +103,7 @@ final class GitCommand
     }
 
     /**
-     * Returns true if the Git command should be skipped
+     * Returns true if the Git command should be skipped.
      */
     public function isBypassed(): bool
     {
@@ -110,7 +111,7 @@ final class GitCommand
     }
 
     /**
-     * @param mixed[]|string|true $value The option's value, pass true if the options is a flag.
+     * @param mixed[]|string|true $value the option's value, pass true if the options is a flag
      */
     public function setOption(string $option, $value): void
     {
@@ -119,6 +120,7 @@ final class GitCommand
 
     /**
      * @api
+     *
      * @param mixed[] $options
      */
     public function setOptions(array $options): void
@@ -158,11 +160,11 @@ final class GitCommand
         }
 
         $command = [];
-        $parts = array_merge([$this->command], $this->buildOptions(), $this->args);
+        $parts = \array_merge([$this->command], $this->buildOptions(), $this->args);
 
         foreach ($parts as $part) {
             $value = (string) $part;
-            if (strlen($value) > 0) {
+            if (\strlen($value) > 0) {
                 $command[] = $value;
             }
         }
@@ -181,11 +183,11 @@ final class GitCommand
         foreach ($this->options as $option => $values) {
             foreach ((array) $values as $value) {
                 // Render the option.
-                $prefix = strlen($option) !== 1 ? '--' : '-';
-                $options[] = $prefix . $option;
+                $prefix = 1 !== \strlen($option) ? '--' : '-';
+                $options[] = $prefix.$option;
 
                 // Render apend the value if the option isn't a flag.
-                if ($value !== true) {
+                if (true !== $value) {
                     $options[] = $value;
                 }
             }

@@ -58,10 +58,10 @@ final class GitWrapper
 
     public function __construct(?string $gitBinary = null)
     {
-        if ($gitBinary === null) {
+        if (null === $gitBinary) {
             $finder = new ExecutableFinder();
             $gitBinary = $finder->find('git');
-            if (! $gitBinary) {
+            if (!$gitBinary) {
                 throw new GitException('Unable to find the Git executable.');
             }
         }
@@ -105,9 +105,9 @@ final class GitWrapper
      * Returns an environment variable that is defined only in the scope of the
      * Git command.
      *
-     * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
-     * @param mixed $default The value returned if the environment variable is not set, defaults to
-     *   null.
+     * @param string $var     The name of the environment variable, e.g. "HOME", "GIT_SSH".
+     * @param mixed  $default the value returned if the environment variable is not set, defaults to
+     *                        null
      */
     public function getEnvVar(string $var, $default = null)
     {
@@ -139,23 +139,23 @@ final class GitWrapper
      * script included with this library. It also sets the custom GIT_SSH_KEY
      * and GIT_SSH_PORT environment variables that are used by the script.
      *
-     * @param string|null $wrapper Path the the GIT_SSH wrapper script, defaults to null which uses the
-     *   script included with this library.
+     * @param string|null $wrapper path the the GIT_SSH wrapper script, defaults to null which uses the
+     *                             script included with this library
      */
     public function setPrivateKey(string $privateKey, int $port = 22, ?string $wrapper = null): void
     {
-        if ($wrapper === null) {
-            $wrapper = __DIR__ . '/../bin/git-ssh-wrapper.sh';
+        if (null === $wrapper) {
+            $wrapper = __DIR__.'/../bin/git-ssh-wrapper.sh';
         }
 
-        $wrapperPath = realpath($wrapper);
-        if ($wrapperPath === false) {
-            throw new GitException('Path to GIT_SSH wrapper script could not be resolved: ' . $wrapper);
+        $wrapperPath = \realpath($wrapper);
+        if (false === $wrapperPath) {
+            throw new GitException('Path to GIT_SSH wrapper script could not be resolved: '.$wrapper);
         }
 
-        $privateKeyPath = realpath($privateKey);
-        if ($privateKeyPath === false) {
-            throw new GitException('Path private key could not be resolved: ' . $privateKey);
+        $privateKeyPath = \realpath($privateKey);
+        if (false === $privateKeyPath) {
+            throw new GitException('Path private key could not be resolved: '.$privateKey);
         }
 
         $this->setEnvVar('GIT_SSH', $wrapperPath);
@@ -200,12 +200,12 @@ final class GitWrapper
      */
     public function streamOutput(bool $streamOutput = true): void
     {
-        if ($streamOutput && $this->outputEventSubscriber === null) {
+        if ($streamOutput && null === $this->outputEventSubscriber) {
             $this->outputEventSubscriber = new StreamOutputEventSubscriber();
             $this->addOutputEventSubscriber($this->outputEventSubscriber);
         }
 
-        if (! $streamOutput && $this->outputEventSubscriber !== null) {
+        if (!$streamOutput && null !== $this->outputEventSubscriber) {
             $this->removeOutputEventSubscriber($this->outputEventSubscriber);
             unset($this->outputEventSubscriber);
         }
@@ -214,7 +214,7 @@ final class GitWrapper
     /**
      * Returns an object that interacts with a working copy.
      *
-     * @param string $directory Path to the directory containing the working copy.
+     * @param string $directory path to the directory containing the working copy
      */
     public function workingCopy(string $directory): GitWorkingCopy
     {
@@ -234,7 +234,7 @@ final class GitWrapper
      *
      * Create an empty git repository or reinitialize an existing one.
      *
-     * @param mixed[] $options An associative array of command line options.
+     * @param mixed[] $options an associative array of command line options
      */
     public function init(string $directory, array $options = []): GitWorkingCopy
     {
@@ -251,19 +251,20 @@ final class GitWrapper
      * Clone a repository into a new directory. Use @see GitWorkingCopy::cloneRepository()
      * instead for more readable code.
      *
-     * @param string $directory The directory that the repository will be cloned into. If null is
-     *   passed, the directory will be generated from the URL with @see GitStrings::parseRepositoryName().
+     * @param string  $directory The directory that the repository will be cloned into. If null is
+     *                           passed, the directory will be generated from the URL with @see GitStrings::parseRepositoryName().
      * @param mixed[] $options
      */
     public function cloneRepository(string $repository, ?string $directory = null, array $options = []): GitWorkingCopy
     {
-        if ($directory === null) {
+        if (null === $directory) {
             $directory = GitStrings::parseRepositoryName($repository);
         }
 
         $git = $this->workingCopy($directory);
         $git->cloneRepository($repository, $options);
         $git->setCloned(true);
+
         return $git;
     }
 
@@ -271,18 +272,19 @@ final class GitWrapper
      * The command is simply a raw command line entry for everything after the Git binary.
      * For example, a `git config -l` command would be passed as `config -l` via the first argument of this method.
      *
-     * @return string The STDOUT returned by the Git command.
+     * @return string the STDOUT returned by the Git command
      */
     public function git(string $commandLine, ?string $cwd = null): string
     {
         $command = new GitCommand($commandLine);
-        $command->executeRaw(is_string($commandLine));
+        $command->executeRaw(\is_string($commandLine));
         $command->setDirectory($cwd);
+
         return $this->run($command);
     }
 
     /**
-     * @return string The STDOUT returned by the Git command.
+     * @return string the STDOUT returned by the Git command
      */
     public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {

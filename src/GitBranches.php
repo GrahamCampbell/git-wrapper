@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace GrahamCampbell\GitWrapper;
 
 use ArrayIterator;
+use GrahamCampbell\GitWrapper\Strings\GitStrings;
 use GrahamCampbell\GitWrapper\ValueObject\CommandName;
 use IteratorAggregate;
-use GrahamCampbell\GitWrapper\Strings\GitStrings;
 
 /**
  * Class that parses and returnes an array of branches.
@@ -31,7 +31,9 @@ final class GitBranches implements IteratorAggregate
      * Fetches the branches via the `git branch` command.
      *
      * @api
-     * @param bool $onlyRemote Whether to fetch only remote branches, defaults to false which returns all branches.
+     *
+     * @param bool $onlyRemote whether to fetch only remote branches, defaults to false which returns all branches
+     *
      * @return string[]
      */
     public function fetchBranches(bool $onlyRemote = false): array
@@ -42,25 +44,28 @@ final class GitBranches implements IteratorAggregate
             'a' => true,
         ];
         $output = $this->gitWorkingCopy->branch($options);
-        $branches = GitStrings::split(rtrim($output), "/\r\n|\n|\r/");
-        return array_map(function (string $branch): string {
+        $branches = GitStrings::split(\rtrim($output), "/\r\n|\n|\r/");
+
+        return \array_map(function (string $branch): string {
             return $this->trimBranch($branch);
         }, $branches);
     }
 
     public function trimBranch(string $branch): string
     {
-        return ltrim($branch, ' *');
+        return \ltrim($branch, ' *');
     }
 
     public function getIterator(): ArrayIterator
     {
         $branches = $this->all();
+
         return new ArrayIterator($branches);
     }
 
     /**
      * @api
+     *
      * @return string[]
      */
     public function all(): array
@@ -83,6 +88,7 @@ final class GitBranches implements IteratorAggregate
     public function head(): string
     {
         $output = $this->gitWorkingCopy->run(CommandName::REV_PARSE, ['--abbrev-ref', 'HEAD']);
-        return trim($output);
+
+        return \trim($output);
     }
 }
