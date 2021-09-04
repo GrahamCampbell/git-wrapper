@@ -32,5 +32,10 @@
     },
     "suggest": {
         "monolog/monolog": "Enables logging of executed git commands"
-    }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
