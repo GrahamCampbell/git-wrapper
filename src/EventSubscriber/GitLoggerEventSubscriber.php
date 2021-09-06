@@ -67,7 +67,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
     }
 
     /**
-     * @return int[][]|string[][]
+     * @return array<class-string, string|array{0: string, 1: int}>
      */
     public static function getSubscribedEvents(): array
     {
