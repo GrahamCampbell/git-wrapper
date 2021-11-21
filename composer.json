@@ -4,9 +4,21 @@
     "keywords": ["git", "git wrapper", "cli"],
     "license": "MIT",
     "authors": [
-        { "name": "Graham Campbell", "email": "hello@gjcampbell.co.uk" },
-        { "name": "Chris Pliakas", "email": "opensource@chrispliakas.com" },
-        { "name": "Tomas Votruba", "email": "tomas.vot@gmail.com" }
+        {
+            "name": "Graham Campbell",
+            "email": "hello@gjcampbell.co.uk",
+            "homepage": "https://github.com/GrahamCampbell"
+        },
+        {
+            "name": "Chris Pliakas",
+            "email": "hopensource@chrispliakas.com",
+            "homepage": "https://github.com/cpliakas"
+        },
+        {
+            "name": "Tomas Votruba",
+            "email": "tomas.vot@gmail.com",
+            "homepage": "https://github.com/TomasVotruba"
+        }
     ],
     "require": {
         "php": "^7.2.5 || ^8.0",
