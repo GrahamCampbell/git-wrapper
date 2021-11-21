@@ -164,7 +164,7 @@ final class GitCommand
 
         foreach ($parts as $part) {
             $value = (string) $part;
-            if (\strlen($value) > 0) {
+            if ('' !== $value) {
                 $command[] = $value;
             }
         }

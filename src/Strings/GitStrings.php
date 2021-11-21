@@ -35,7 +35,7 @@ final class GitStrings
         $result = @\preg_split($pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
 
         if (\PREG_NO_ERROR !== \preg_last_error()) {
-            throw new GitException(preg_last_error_msg());
+            throw new GitException(\preg_last_error_msg());
         }
 
         return $result;
