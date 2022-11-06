@@ -179,9 +179,7 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
 
-        $output = \rtrim($git->fetchAll());
-
-        $this->assertSame('Fetching origin', $output);
+        $this->assertIsString($git->fetchAll());
     }
 
     public function testGitAdd(): void
