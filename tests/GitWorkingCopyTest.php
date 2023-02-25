@@ -600,7 +600,7 @@ CODE_SAMPLE;
     /**
      * @return mixed[][]
      */
-    public function addRemoteDataProvider(): array
+    public static function addRemoteDataProvider(): array
     {
         return [
             // Test default options: nothing is fetched.
@@ -754,7 +754,7 @@ CODE_SAMPLE;
     /**
      * @return Iterator<string[]>
      */
-    public function getRemoteUrlDataProvider(): Iterator
+    public static function getRemoteUrlDataProvider(): Iterator
     {
         yield ['origin', 'fetch', self::REPO_DIR];
         yield ['origin', 'push', self::REPO_DIR];

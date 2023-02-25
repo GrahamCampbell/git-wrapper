@@ -1,6 +1,6 @@
 # PHP Wrapper around GIT
 
-This is a fork of [cpliakas/git-wrapper](https://github.com/cpliakas/git-wrapper) by [Chris Pliakas](https://github.com/cpliakas) and [Tomas Votruba](https://github.com/TomasVotruba). We **readable API that abstracts challenges of executing Git commands from within a PHP process** for you. We provide support for PHP 7.2, 7.3, 7.4, 8.0 and 8.1, all in one version, without depending on Nette, a major differnce from the upstream package!
+This is a fork of [cpliakas/git-wrapper](https://github.com/cpliakas/git-wrapper) by [Chris Pliakas](https://github.com/cpliakas) and [Tomas Votruba](https://github.com/TomasVotruba). We **readable API that abstracts challenges of executing Git commands from within a PHP process** for you. We provide support for PHP 7.4, 8.0, 8.1, and 8.2, all in one version, without depending on Nette, a major difference from the upstream package!
 
 - It's built upon the [`Symfony\Process`](https://symfony.com/doc/current/components/process.html) to execute the Git command with **cross-platform support** and uses the best-in-breed techniques available to PHP. 
 - This library also provides an SSH wrapper script and API method for developers to **easily specify a private key other than default** by using [the technique from StackOverflow](http://stackoverflow.com/a/3500308/870667). 
@@ -10,7 +10,7 @@ This is a fork of [cpliakas/git-wrapper](https://github.com/cpliakas/git-wrapper
 ## Installation
 
 ```bash
-$ composer require "graham-campbell/git-wrapper:^1.0"
+$ composer require "graham-campbell/git-wrapper:^1.1"
 ```
 
 
