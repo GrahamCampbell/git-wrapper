@@ -13,10 +13,10 @@ final class EventDispatchingTest extends AbstractGitWrapperTestCase
         $eventSubscriber = $this->registerAndReturnEventSubscriber();
         $this->gitWrapper->version();
 
-        $this->assertTrue($eventSubscriber->wasMethodCalled('onPrepare'));
-        $this->assertTrue($eventSubscriber->wasMethodCalled('onSuccess'));
-        $this->assertFalse($eventSubscriber->wasMethodCalled('onError'));
-        $this->assertFalse($eventSubscriber->wasMethodCalled('onBypass'));
+        self::assertTrue($eventSubscriber->wasMethodCalled('onPrepare'));
+        self::assertTrue($eventSubscriber->wasMethodCalled('onSuccess'));
+        self::assertFalse($eventSubscriber->wasMethodCalled('onError'));
+        self::assertFalse($eventSubscriber->wasMethodCalled('onBypass'));
     }
 
     public function testError(): void
@@ -24,10 +24,10 @@ final class EventDispatchingTest extends AbstractGitWrapperTestCase
         $eventSubscriber = $this->registerAndReturnEventSubscriber();
         $this->runBadCommand(true);
 
-        $this->assertTrue($eventSubscriber->wasMethodCalled('onPrepare'));
-        $this->assertFalse($eventSubscriber->wasMethodCalled('onSuccess'));
-        $this->assertTrue($eventSubscriber->wasMethodCalled('onError'));
-        $this->assertFalse($eventSubscriber->wasMethodCalled('onBypass'));
+        self::assertTrue($eventSubscriber->wasMethodCalled('onPrepare'));
+        self::assertFalse($eventSubscriber->wasMethodCalled('onSuccess'));
+        self::assertTrue($eventSubscriber->wasMethodCalled('onError'));
+        self::assertFalse($eventSubscriber->wasMethodCalled('onBypass'));
     }
 
     public function testGitBypass(): void
@@ -37,11 +37,11 @@ final class EventDispatchingTest extends AbstractGitWrapperTestCase
 
         $output = $this->gitWrapper->version();
 
-        $this->assertTrue($eventSubscriber->wasMethodCalled('onPrepare'));
-        $this->assertFalse($eventSubscriber->wasMethodCalled('onSuccess'));
-        $this->assertFalse($eventSubscriber->wasMethodCalled('onError'));
-        $this->assertTrue($eventSubscriber->wasMethodCalled('onBypass'));
+        self::assertTrue($eventSubscriber->wasMethodCalled('onPrepare'));
+        self::assertFalse($eventSubscriber->wasMethodCalled('onSuccess'));
+        self::assertFalse($eventSubscriber->wasMethodCalled('onError'));
+        self::assertTrue($eventSubscriber->wasMethodCalled('onBypass'));
 
-        $this->assertEmpty($output);
+        self::assertEmpty($output);
     }
 }

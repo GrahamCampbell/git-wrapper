@@ -27,7 +27,7 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
         $gitLoggerEventSubscriber = new GitLoggerEventSubscriber(new NullLogger());
         $gitLoggerEventSubscriber->setLogLevelMapping('test.event', 'test-level');
 
-        $this->assertSame('test-level', $gitLoggerEventSubscriber->getLogLevelMapping('test.event'));
+        self::assertSame('test-level', $gitLoggerEventSubscriber->getLogLevelMapping('test.event'));
     }
 
     public function testGetInvalidLogLevelMapping(): void
@@ -46,21 +46,21 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
             'bare' => true,
         ]);
 
-        $this->assertSame('Git command preparing to run', $logger->messages[0]);
-        $this->assertSame(
+        self::assertSame('Git command preparing to run', $logger->messages[0]);
+        self::assertSame(
             'Initialized empty Git repository in '.\realpath(self::REPO_DIR)."/\n",
             $logger->messages[1]
         );
-        $this->assertSame('Git command successfully run', $logger->messages[2]);
+        self::assertSame('Git command successfully run', $logger->messages[2]);
 
-        $this->assertArrayHasKey('command', $logger->contexts[0]);
-        $this->assertArrayHasKey('command', $logger->contexts[1]);
-        $this->assertArrayHasKey('error', $logger->contexts[1]);
-        $this->assertArrayHasKey('command', $logger->contexts[2]);
+        self::assertArrayHasKey('command', $logger->contexts[0]);
+        self::assertArrayHasKey('command', $logger->contexts[1]);
+        self::assertArrayHasKey('error', $logger->contexts[1]);
+        self::assertArrayHasKey('command', $logger->contexts[2]);
 
-        $this->assertSame(LogLevel::INFO, $logger->levels[0]);
-        $this->assertSame(LogLevel::DEBUG, $logger->levels[1]);
-        $this->assertSame(LogLevel::INFO, $logger->levels[2]);
+        self::assertSame(LogLevel::INFO, $logger->levels[0]);
+        self::assertSame(LogLevel::DEBUG, $logger->levels[1]);
+        self::assertSame(LogLevel::INFO, $logger->levels[2]);
 
         try {
             $logger->clearMessages();
@@ -69,9 +69,9 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
             // Nothing to do, this is expected.
         }
 
-        $this->assertSame('Error running Git command', $logger->messages[2]);
-        $this->assertArrayHasKey('command', $logger->contexts[2]);
-        $this->assertSame(LogLevel::ERROR, $logger->levels[2]);
+        self::assertSame('Error running Git command', $logger->messages[2]);
+        self::assertArrayHasKey('command', $logger->contexts[2]);
+        self::assertSame(LogLevel::ERROR, $logger->levels[2]);
     }
 
     public function testLogBypassedCommand(): void
@@ -86,8 +86,8 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
 
         $this->gitWrapper->run($command);
 
-        $this->assertSame('Git command bypassed', $logger->messages[1]);
-        $this->assertArrayHasKey('command', $logger->contexts[1]);
-        $this->assertSame(LogLevel::INFO, $logger->levels[1]);
+        self::assertSame('Git command bypassed', $logger->messages[1]);
+        self::assertArrayHasKey('command', $logger->contexts[1]);
+        self::assertSame(LogLevel::INFO, $logger->levels[1]);
     }
 }

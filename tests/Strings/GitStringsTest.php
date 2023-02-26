@@ -12,9 +12,9 @@ final class GitStringsTest extends TestCase
     public function testParseRepositoryName(): void
     {
         $nameGit = GitStrings::parseRepositoryName('git@github.com:cpliakas/git-wrapper.git');
-        $this->assertSame($nameGit, 'git-wrapper');
+        self::assertSame($nameGit, 'git-wrapper');
 
         $nameHttps = GitStrings::parseRepositoryName('https://github.com/cpliakas/git-wrapper.git');
-        $this->assertSame($nameHttps, 'git-wrapper');
+        self::assertSame($nameHttps, 'git-wrapper');
     }
 }

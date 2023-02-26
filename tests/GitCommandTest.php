@@ -23,7 +23,7 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
 
         $expected = [$command, \sprintf('--%s', $flag), \sprintf('--%s', $optionName), $optionValue, $argument];
 
-        $this->assertSame($expected, $git->getCommandLine());
+        self::assertSame($expected, $git->getCommandLine());
     }
 
     public function testMultiOption(): void
@@ -34,6 +34,6 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
         $expected = ['test-command', '--test-arg', '--test-arg'];
         $commandLine = $git->getCommandLine();
 
-        $this->assertSame($expected, $commandLine);
+        self::assertSame($expected, $commandLine);
     }
 }

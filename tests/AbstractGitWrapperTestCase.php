@@ -78,7 +78,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     protected function assertGitVersion(string $version): void
     {
         $match = \preg_match('#^git version [.0-9]+#', $version);
-        $this->assertNotEmpty($match);
+        self::assertNotEmpty($match);
     }
 
     protected function runBadCommand(bool $catchException = false): void
