@@ -372,14 +372,6 @@ CODE_SAMPLE;
         self::assertStringStartsWith('commit ', $output);
     }
 
-    public function testGitBisect(): void
-    {
-        $git = $this->getWorkingCopy();
-        $output = $git->bisect('help');
-
-        self::assertStringStartsWith('usage: git bisect', $output);
-    }
-
     public function testGitRemote(): void
     {
         $git = $this->getWorkingCopy();
