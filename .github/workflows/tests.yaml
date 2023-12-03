@@ -11,15 +11,21 @@ jobs:
 
     strategy:
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2']
-        symfony: ['4', '5', '6']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        symfony: ['4', '5', '6', '7']
         exclude:
           - php: '7.4'
             symfony: '6'
+          - php: '7.4'
+            symfony: '7'
+          - php: '8.0'
+            symfony: '7'
+          - php: '8.1'
+            symfony: '7'
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -56,6 +62,14 @@ jobs:
           max_attempts: 5
           command: composer require "symfony/event-dispatcher:^6.0" "symfony/filesystem:^6.0" "symfony/process:^6.0" --no-update --no-interaction
         if: "matrix.symfony == '6'"
+
+      - name: Select Symfony 7
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer require "symfony/event-dispatcher:^7.0" "symfony/filesystem:^7.0" "symfony/process:^7.0" --no-update --no-interaction
+        if: "matrix.symfony == '7'"
 
       - name: Install PHP Dependencies
         uses: nick-invision/retry@v2
