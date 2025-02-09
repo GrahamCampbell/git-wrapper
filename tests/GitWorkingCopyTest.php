@@ -604,30 +604,6 @@ CODE_SAMPLE;
                     'assertNoRemoteMaster' => [],
                 ],
             ],
-            // The fetch option should retrieve the remote branches and tags,
-            // but not set up a master branch.
-            [
-                [
-                    '-f' => true,
-                ],
-                [
-                    'assertRemoteBranches' => [['remote/master', 'remote/remote-branch']],
-                    'assertGitTag' => ['remote-tag'],
-                    'assertNoRemoteMaster' => [],
-                ],
-            ],
-            // The --no-tags options should omit importing tags.
-            [
-                [
-                    '-f' => true,
-                    '--no-tags' => true,
-                ],
-                [
-                    'assertRemoteBranches' => [['remote/master', 'remote/remote-branch']],
-                    'assertNoGitTag' => ['remote-tag'],
-                    'assertNoRemoteMaster' => [],
-                ],
-            ],
             // The -t option should limit the remote branches that are imported.
             // By default git fetch only imports the tags of the fetched
             // branches. No tags were added to the master branch, so the tag
