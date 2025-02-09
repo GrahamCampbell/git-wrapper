@@ -83,7 +83,7 @@ CODE_SAMPLE;
         // Initial commit.
         $git->add('*');
         $git->commit('Initial commit.');
-        $git->push('origin', 'master', [
+        $git->push('origin', 'main', [
             'u' => true,
         ]);
 
@@ -343,7 +343,7 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
 
-        $this->expectExceptionMessageMatches("/Your branch is up[- ]to[- ]date with 'origin\\/master'./");
+        $this->expectExceptionMessageMatches("/Your branch is up[- ]to[- ]date with 'origin\\/main'./");
         $git->commit('Nothing to commit so generates an error / not error');
     }
 
@@ -385,7 +385,7 @@ CODE_SAMPLE;
         $git->checkout('test-branch');
 
         $output = $git->rebase('test-branch', [
-            'onto' => 'master',
+            'onto' => 'main',
         ]);
 
         // nothing to rebase
@@ -396,7 +396,7 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
         $git->checkout('test-branch');
-        $git->checkout('master');
+        $git->checkout('main');
 
         $output = $git->merge('test-branch');
 
@@ -475,7 +475,7 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
 
-        // The master branch is a remote tracking branch.
+        // The main branch is a remote tracking branch.
         self::assertTrue($git->isTracking());
 
         // Create a new branch without pushing it, so it does not have a remote.
@@ -512,7 +512,7 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
 
-        // The default master branch is not ahead of the remote.
+        // The default main branch is not ahead of the remote.
         self::assertFalse($git->isAhead());
 
         // Create a new commit, so that the branch is 1 commit ahead.
@@ -599,21 +599,21 @@ CODE_SAMPLE;
             [
                 [],
                 [
-                    'assertNoRemoteBranches' => [['remote/master', 'remote/remote-branch']],
+                    'assertNoRemoteBranches' => [['remote/main', 'remote/remote-branch']],
                     'assertNoGitTag' => ['remote-tag'],
-                    'assertNoRemoteMaster' => [],
+                    'assertNoRemoteMain' => [],
                 ],
             ],
             // The fetch option should retrieve the remote branches and tags,
-            // but not set up a master branch.
+            // but not set up a main branch.
             [
                 [
                     '-f' => true,
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master', 'remote/remote-branch']],
+                    'assertRemoteBranches' => [['remote/main', 'remote/remote-branch']],
                     'assertGitTag' => ['remote-tag'],
-                    'assertNoRemoteMaster' => [],
+                    'assertNoRemoteMain' => [],
                 ],
             ],
             // The --no-tags options should omit importing tags.
@@ -623,25 +623,25 @@ CODE_SAMPLE;
                     '--no-tags' => true,
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master', 'remote/remote-branch']],
+                    'assertRemoteBranches' => [['remote/main', 'remote/remote-branch']],
                     'assertNoGitTag' => ['remote-tag'],
-                    'assertNoRemoteMaster' => [],
+                    'assertNoRemoteMain' => [],
                 ],
             ],
             // The -t option should limit the remote branches that are imported.
             // By default git fetch only imports the tags of the fetched
-            // branches. No tags were added to the master branch, so the tag
+            // branches. No tags were added to the main branch, so the tag
             // should not be imported.
             [
                 [
                     '-f' => true,
-                    '-t' => ['master'],
+                    '-t' => ['main'],
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master']],
+                    'assertRemoteBranches' => [['remote/main']],
                     'assertNoRemoteBranches' => [['remote/remote-branch']],
                     'assertNoGitTag' => ['remote-tag'],
-                    'assertNoRemoteMaster' => [],
+                    'assertNoRemoteMain' => [],
                 ],
             ],
             // The -t option in combination with the --tags option should fetch
@@ -649,26 +649,26 @@ CODE_SAMPLE;
             [
                 [
                     '-f' => true,
-                    '-t' => ['master'],
+                    '-t' => ['main'],
                     '--tags' => true,
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master']],
+                    'assertRemoteBranches' => [['remote/main']],
                     'assertNoRemoteBranches' => [['remote/remote-branch']],
                     'assertGitTag' => ['remote-tag'],
-                    'assertNoRemoteMaster' => [],
+                    'assertNoRemoteMain' => [],
                 ],
             ],
-            // The -m option should set up a remote master branch.
+            // The -m option should set up a remote main branch.
             [
                 [
                     '-f' => true,
                     '-m' => 'remote-branch',
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master', 'remote/remote-branch']],
+                    'assertRemoteBranches' => [['remote/main', 'remote/remote-branch']],
                     'assertGitTag' => ['remote-tag'],
-                    'assertRemoteMaster' => [],
+                    'assertRemoteMain' => [],
                 ],
             ],
         ];
@@ -771,21 +771,21 @@ CODE_SAMPLE;
         throw new GitException(\sprintf('Tag "%s" should not exist', $tag));
     }
 
-    protected function assertRemoteMaster(GitWorkingCopy $gitWorkingCopy): void
+    protected function assertRemoteMain(GitWorkingCopy $gitWorkingCopy): void
     {
         $gitWorkingCopy->run(CommandName::REV_PARSE, ['remote/HEAD']);
     }
 
-    protected function assertNoRemoteMaster(GitWorkingCopy $gitWorkingCopy): void
+    protected function assertNoRemoteMain(GitWorkingCopy $gitWorkingCopy): void
     {
         try {
             $gitWorkingCopy->run(CommandName::REV_PARSE, ['remote/HEAD']);
         } catch (GitException $gitException) {
-            // Expected result. The remote master does not exist.
+            // Expected result. The remote main does not exist.
             return;
         }
 
-        throw new GitException('Branch `master` should not exist');
+        throw new GitException('Branch `main` should not exist');
     }
 
     /**
